@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circles and spheres | Smithy</title>
+  <meta name="description" content="Plan a Minecraft circle, oval or sphere block by block, with layer views and block counts.">
+  <meta name="theme-color" content="#16150e">
+  <meta property="og:title" content="Circles and spheres | Smithy">
+  <meta property="og:description" content="Plan a Minecraft circle, oval or sphere block by block, with layer views and block counts.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23ffe566'/%3E%3Cpath fill='%231b1900' d='M6 9h20v6h-6v3h3v5H9v-5h3v-3H6z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the tool</a>
+
+  <header class="wrap topbar">
+    <a class="mark" href="./" aria-label="Smithy home">
+      <span class="mark-tile" aria-hidden="true">
+        <svg viewBox="0 0 30 30"><path fill="currentColor" d="M5 8h20v6h-6v3h3v5H8v-5h3v-3H5z"/></svg>
+      </span>Smithy
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="nickname.html">Nickname colors</a>
+      <a href="circles.html" aria-current="page">Circles and spheres</a>
+      <a href="https://direkjames.github.io/">Kitly</a>
+    </nav>
+  </header>
+
+  <main class="wrap" id="main">
+    <div class="intro">
+      <h1 class="intro-title">Plan a circle or sphere</h1>
+      <p class="intro-text">Pick a size and build what you see, one block per square. Click or tap a square to tick it off once you've placed it.</p>
+    </div>
+
+    <noscript><p class="noscript">This tool needs JavaScript. Turn it on in your browser, then reload the page.</p></noscript>
+
+    <div class="layout layout-plan">
+      <div class="stage-card">
+        <div class="board"><canvas id="board" role="img" aria-label="Block layout"></canvas></div>
+
+        <div class="layers" id="layers" hidden>
+          <button class="layer-step" type="button" id="layer-down" aria-label="Layer below">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <input type="range" id="layer" min="1" max="1" value="1" aria-label="Layer">
+          <button class="layer-step" type="button" id="layer-up" aria-label="Layer above">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+          </button>
+        </div>
+
+        <div class="board-bar">
+          <p class="board-readout" id="readout" aria-live="polite"></p>
+          <div class="board-actions">
+            <button class="btn btn-ink-line btn-small" type="button" id="clear-ticks">Clear ticks</button>
+            <button class="btn btn-ink btn-small" type="button" id="download">Download PNG</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="side">
+        <form class="panel" id="controls" autocomplete="off">
+          <h2 class="panel-title">Shape</h2>
+
+          <div class="seg" role="radiogroup" aria-label="Shape">
+            <label class="seg-item"><input type="radio" name="shape" value="circle" checked><span>Circle</span></label>
+            <label class="seg-item"><input type="radio" name="shape" value="sphere"><span>Sphere</span></label>
+          </div>
+
+          <div id="circle-size">
+            <div class="field-row">
+              <div class="field">
+                <label for="width">Width</label>
+                <input type="number" id="width" name="width" min="2" max="256" step="1" value="21" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="height">Height</label>
+                <input type="number" id="height" name="height" min="2" max="256" step="1" value="21" inputmode="numeric">
+              </div>
+            </div>
+          </div>
+          <label class="check" id="lock-row"><input type="checkbox" name="lock" checked><span>Keep it a perfect circle</span></label>
+
+          <div class="field" id="sphere-size" hidden>
+            <label for="diameter">Diameter</label>
+            <input type="number" id="diameter" name="diameter" min="2" max="128" step="1" value="21" inputmode="numeric">
+          </div>
+
+          <p class="hint" id="size-hint">Sizes are in blocks, from 2 to 256.</p>
+
+          <div class="field" id="circle-style">
+            <span class="group-label" id="style-label">Blocks to show</span>
+            <div class="seg" role="radiogroup" aria-labelledby="style-label">
+              <label class="seg-item"><input type="radio" name="style" value="thin" checked><span>Thin</span></label>
+              <label class="seg-item"><input type="radio" name="style" value="thick"><span>Thick</span></label>
+              <label class="seg-item"><input type="radio" name="style" value="filled"><span>Filled</span></label>
+            </div>
+            <p class="hint">Thin edges touch at the corners. Thick edges leave no diagonal gaps.</p>
+          </div>
+
+          <div class="field" id="sphere-style" hidden>
+            <span class="group-label" id="fill-label">Inside</span>
+            <div class="seg" role="radiogroup" aria-labelledby="fill-label">
+              <label class="seg-item"><input type="radio" name="fill" value="hollow" checked><span>Hollow</span></label>
+              <label class="seg-item"><input type="radio" name="fill" value="solid"><span>Solid</span></label>
+            </div>
+            <p class="hint">The faint squares show the layer below, so you can line each layer up.</p>
+          </div>
+        </form>
+
+        <div class="panel">
+          <h2 class="panel-title">Blocks needed</h2>
+          <dl class="stats">
+            <div class="stat" id="stat-layer" hidden><dt id="stat-layer-label">This layer</dt><dd id="stat-layer-value"></dd></div>
+            <div class="stat"><dt id="stat-total-label">Total</dt><dd id="stat-total-value"></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer">
+      <div class="footer-row">
+        <p>Smithy is made by <a href="https://github.com/direkjames" target="_blank" rel="noopener">direkjames</a>.</p>
+        <p><a href="https://direkjames.github.io/">More free tools on Kitly</a></p>
+      </div>
+      <p class="footer-small">Smithy is a fan project. It is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.</p>
+    </div>
+  </footer>
+
+  <script src="assets/circle.js"></script>
+</body>
+</html>
