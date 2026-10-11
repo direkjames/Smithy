@@ -661,3 +661,175 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- Block palettes ---------- */
+
+.layout-match { grid-template-columns: 340px minmax(0, 1fr); }
+.section-gap { margin-top: 24px; }
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+  margin: clamp(32px, 5vw, 56px) 0 20px;
+}
+.section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+/* A block picture. The canvas is 16 pixels wide and scales up with hard edges. */
+.blk {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+}
+.blk-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.blk:hover .blk-img,
+.blk:focus-visible .blk-img { outline: 3px solid #ffffff; outline-offset: -3px; }
+.blk:focus-visible { outline: none; }
+
+.swatch-board {
+  background: #0d0c08;
+  border-radius: 14px;
+  padding: clamp(14px, 2.4vw, 22px);
+  color: var(--text);
+}
+.match-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.match-swatch {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.match-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.6vw, 1.625rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.match-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px 16px;
+}
+.match {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+.match-text { display: grid; gap: 1px; min-width: 0; }
+.match-name { font-size: 1rem; line-height: 1.25; }
+.match-hex { font-family: var(--font-code); font-size: 0.875rem; color: var(--muted); }
+
+.blend-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 14px;
+}
+.blend-swap { width: 46px; height: 46px; padding: 0; }
+.blend-swap svg { width: 20px; height: 20px; }
+.blend-check { grid-column: 1 / -1; }
+#blend-steps-out { color: var(--muted); font-weight: 400; margin-left: 6px; }
+.blend-steps input { margin: 12px 0; }
+
+.blend-strip {
+  display: grid;
+  grid-template-columns: repeat(var(--count, 7), minmax(0, 96px));
+  border-radius: 10px;
+  overflow: hidden;
+  width: min(100%, calc(var(--count, 7) * 96px));
+}
+.blend-names {
+  margin: 0;
+  padding-left: 1.4em;
+  columns: 3 200px;
+  column-gap: 32px;
+  color: var(--text);
+}
+.blend-names li { break-inside: avoid; padding: 1px 0; }
+.blend-names li::marker { color: var(--muted); }
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 16px;
+}
+.pal {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  padding-bottom: 18px;
+}
+.pal-row {
+  display: grid;
+  grid-template-columns: repeat(var(--count, 6), minmax(0, 1fr));
+}
+.pal-name {
+  margin: 16px 18px 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.pal-note { margin: 0 18px 10px; color: var(--muted); font-size: 0.9375rem; line-height: 1.4; }
+.pal-blocks {
+  margin: 0 18px;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: 16px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.pal-blocks li { break-inside: avoid; }
+
+.tool-swatches {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: min(100%, 266px);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tool-swatches span { aspect-ratio: 1 / 1; }
+
+@media (max-width: 900px) {
+  .layout-match .stage-card { order: 1; }
+  .blend-form { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .blend-steps { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  .blend-form { grid-template-columns: minmax(0, 1fr); }
+  .blend-swap { justify-self: start; }
+  .blend-names { columns: 2 140px; }
+}
